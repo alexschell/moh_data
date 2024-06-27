@@ -5,6 +5,8 @@ library(lubridate)
 
 options(stringsAsFactors = FALSE)
 
+source("scripts/utils.R")
+
 input_path = "data/fatalities_20240105_raw.csv"
 output_path = "data/fatalities_20240105_wip.csv"
 
@@ -31,6 +33,7 @@ df$.flg_name = case_when(
 df$.gov_id = as.character(df$gov_id)
 df$.flg_gov_id = case_when(
   str_length(df$.gov_id) < 9 ~ "partial",
+  !check_luhn(df$gov_id) ~ "incorrect check digit",
   TRUE ~ NA_character_
 )
 
