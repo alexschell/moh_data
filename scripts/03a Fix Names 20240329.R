@@ -11,7 +11,7 @@ input_path = c(
   "data/fatalities_20240430_wip.csv"
 )
 
-output_path = ""
+output_path = "data/temp/names_20240329.R"
 
 
 # Read from CSV -------------------------------------------------------
@@ -73,7 +73,7 @@ df_34_part2 =
   df_34 %>% 
   filter((is.na(name.y) & flg) | dist > 0.25)
 
-df_34_part2$name.y = {
+df_34_part2$name.z = {
   x = df_34_part2$name.x
   for (i in seq(nrow(df_lookup))) {
     x = str_replace_all(x, df_lookup$x[i], df_lookup$y[i])
@@ -81,18 +81,46 @@ df_34_part2$name.y = {
   x
 }
 
-df_34_part2 %>% 
-  mutate(name.y==name.x) %>% 
-  mutate(tname.x = transliterate(name.x),
-         tname.y = transliterate(name.y)) %>%
-  View
+# df_34_part2 %>% 
+#   mutate(name.y==name.x) %>% 
+#   mutate(tname.x = transliterate(name.x),
+#          tname.z = transliterate(name.z)) %>%
+#   View
 
-df_34_part2$name.y = str_replace_all(df_34_part2$name.y, "ياعى ن ي", "ياغي")
+df_34_part2$name.z = str_replace_all(df_34_part2$name.y, "ياعى ن ي", "ياغي")
 
-bind_rows(df_34_part1, df_34_part2) %>%
+out = 
+  bind_rows(df_34_part1, df_34_part2) %>%
   mutate(
     tname.x = transliterate(name.x),
-    tname.y = transliterate(name.y)
+    tname.y = transliterate(name.y),
+    tname.z = transliterate(name.z)
   ) %>%
-  mutate(dist = stringdist::stringdist(tname.x, tname.y) / pmax(nchar(tname.x), nchar(tname.y)))
+  mutate(
+    dist_xy = stringdist::stringdist(tname.x, tname.y) / pmax(nchar(tname.x), nchar(tname.y)),
+    dist_xz = stringdist::stringdist(tname.x, tname.z) / pmax(nchar(tname.x), nchar(tname.z)),
+    flg = as.integer(flg)
+  )
+
+
+# Output --------------------------------------------------------------
+
+out = out %>% select(id, gov_id, name.x, name.y, name.z, flg, dist_xy, dist_xz)
+
+write.csv(
+  out,
+  file = output_path,
+  quote = FALSE,
+  na = "",
+  row.names = FALSE
+)
+
+# Check write/read
+tmp = read.csv(
+  file = output_path, 
+  colClasses = { x = rep("character", 8); x[c(1,6)] = "integer"; x[7:8] = "numeric"; x },
+  na.strings = ""
+)
+all.equal(out, tmp)
+rm("tmp")
 
