@@ -2,6 +2,7 @@ library(magrittr)
 library(dplyr)
 library(stringr)
 library(lubridate)
+library(stringdist)
 library(arabicStemR)
 
 options(stringsAsFactors = FALSE)
@@ -11,7 +12,7 @@ input_path = c(
   "data/fatalities_20240430_wip.csv"
 )
 
-output_path = "data/temp/names_20240329.R"
+output_path = "data/names_fix_20240329.csv"
 
 
 # Read from CSV -------------------------------------------------------
@@ -29,7 +30,7 @@ df4 = read.csv(
 )
 
 
-# Copy paste from DF4 -------------------------------------------------
+# Join to get 20240430 names ------------------------------------------
 
 df4_names = 
   df4 %>%
@@ -40,72 +41,202 @@ df_34 =
   df3 %>%
   select(id, gov_id, name) %>%
   left_join(df4_names, by="gov_id") %>%
-  mutate(
-    flg = str_detect(name.x, " [\u0600-\u06ff]( |$)"),
-    dist = stringdist::stringdist(name.x, name.y) / pmax(nchar(name.x), nchar(name.y))
-  ) 
+  mutate(dist = stringdist::stringdist(name.x, name.y) / pmax(nchar(name.x), nchar(name.y)))
 
-# df_34 %>% group_by(flg) %>% summarise(mean(is.na(name.y)), n())
 
-split_x = df_34$name.x %>% str_replace_all(" (?=[\u0600-\u06ff]( |$))", "_") %>% str_split(" ")
-split_y = df_34$name.y %>% str_split(" ")
+# Get substitution patterns from OCR-affected names -------------------
+
+# OCR-affected ~ has lone letters / matches ' [\u0600-\u06ff](?=( |$))'
+
+extract_4gram = function(x) {
+  last4 = str_extract(str_remove_all(x, " "), "[\\w]{3,4}$")
+  pattern = paste0(str_replace_all(last4, "(?<=\\w)(?=\\w)", " ?"), "$")
+  str_extract(x, pattern)
+}
+
+extract_4gram_mapped = function(x, y) {
+  gram = extract_4gram(x)
+  complement = str_remove(x, paste0(gram, "$"))
+  str_remove(y, paste0("^", complement))
+}
+
+split_x = 
+  df_34 %>%
+  filter(!is.na(name.y), dist < 0.5) %>%
+  `$`(name.x) %>%
+  str_replace_all(" (?=[\u0600-\u06ff]( |$))", "_") %>%
+  str_split(" ")
+split_y = 
+  df_34 %>%
+  filter(!is.na(name.y), dist < 0.5) %>%
+  `$`(name.y) %>%
+  str_split(" ")
 is_aligned = sapply(split_x, length) == sapply(split_y, length)
 words_x = unlist(split_x[is_aligned])
 words_y = unlist(split_y[is_aligned])
 
-is_compound = str_detect(words_x, "_")
-words_x = words_x[is_compound]
-words_y = words_y[is_compound]
-
 df_lookup = 
   data.frame(
-    x = unique(words_x),
-    y = sapply(unique(words_x), function(k) names(tail(sort(table(words_y[words_x == k])), 1)))
+    word_x = words_x,
+    word_y = words_y
   ) %>%
-  mutate(x = str_replace_all(x, "_", " ")) %>%
-  filter(x != y) 
+  filter(str_detect(word_x, "_")) %>% 
+  mutate(word_x = str_replace_all(word_x, "_", " ")) %>%
+  filter(word_x != word_y) %>%
+  mutate(
+    x = extract_4gram(word_x),
+    y = extract_4gram_mapped(word_x, word_y)
+  ) %>%
+  filter(!is.na(x), !is.na(y)) %>%
+  group_by(x, y) %>%
+  summarise(n_xy = n(), .groups = "drop") %>%
+  group_by(x) %>%
+  arrange(desc(n_xy)) %>%
+  mutate(
+    n_x = sum(n_xy),
+    p_top = max(n_xy) / n_x,
+    rn = row_number()
+  ) %>%
+  ungroup() %>%
+  mutate(dist = stringdist::stringdist(x, y) / pmax(nchar(x), nchar(y))) %>%
+  filter(p_top >= 0.7, n_x >= 2, rn == 1)
 
-df_34_part1 = 
-  df_34 %>%
-  filter(!is.na(name.y) | !flg, dist <= 0.25)
+# Other whole-word substitutions
+df_lookup2 = 
+  data.frame(
+    x = words_x,
+    y = words_y
+  ) %>%
+  filter(!is.na(x), !is.na(y)) %>%
+  filter(!str_detect(x, "_")) %>% 
+  group_by(x, y) %>%
+  summarise(n_xy = n(), .groups = "drop") %>%
+  group_by(x) %>%
+  arrange(desc(n_xy)) %>%
+  mutate(
+    n_x = sum(n_xy),
+    p_top = max(n_xy) / n_x,
+    rn = row_number()
+  ) %>%
+  ungroup() %>%
+  mutate(dist = stringdist::stringdist(x, y) / pmax(nchar(x), nchar(y))) %>%
+  filter(p_top >= 0.9, n_x >= 10, rn == 1) %>%
+  filter(
+    x != y,
+    arabicStemR::fixAlifs(x) != arabicStemR::fixAlifs(y)
+  )
 
-df_34_part2 = 
-  df_34 %>% 
-  filter((is.na(name.y) & flg) | dist > 0.25)
 
-df_34_part2$name.z = {
-  x = df_34_part2$name.x
-  for (i in seq(nrow(df_lookup))) {
-    x = str_replace_all(x, df_lookup$x[i], df_lookup$y[i])
+# Apply substitutions where applicable --------------------------------
+
+lookup_substitute = function(s, df, prefix = "", suffix = "") {
+  for (i in seq(nrow(df))) {
+    s = str_replace_all(s, paste0(prefix, df$x[i], suffix), df$y[i])
   }
-  x
+  s
 }
 
-# df_34_part2 %>% 
-#   mutate(name.y==name.x) %>% 
-#   mutate(tname.x = transliterate(name.x),
-#          tname.z = transliterate(name.z)) %>%
-#   View
+df_34$name.z = lookup_substitute(df_34$name.x, df_lookup, suffix = "(?=($| ))")
+df_34$name.z = lookup_substitute(df_34$name.z, df_lookup2, prefix = "(?<=(^| ))", suffix = "(?=($| ))")
 
-df_34_part2$name.z = str_replace_all(df_34_part2$name.y, "ياعى ن ي", "ياغي")
-
-out = 
-  bind_rows(df_34_part1, df_34_part2) %>%
+# Look at instances not fixed
+df_34 %>%
+  filter(is.na(name.y), str_detect(name.z, " [\u0600-\u06ff]( |$)")) %>%
   mutate(
-    tname.x = transliterate(name.x),
-    tname.y = transliterate(name.y),
-    tname.z = transliterate(name.z)
+    tname.x = arabicStemR::transliterate(name.x),
+    tname.z = arabicStemR::transliterate(name.z)
   ) %>%
+  select(id, tname.x, tname.z, name.x)
+
+# Apply manual fixes
+# idx = str_detect(df_34$name.z, " [\u0600-\u06ff]( |$)")
+# df_34$name.z[idx] = {
+#   x = df_34$name.x[idx]
+#   x = str_replace_all(x, "ياعى ن ي", "ياغي")
+#   x = str_replace_all(x, "العي ن", "العين")
+#   x = str_replace_all(x, "الكيى ي", "الكتري")
+#   x = str_replace_all(x, "أمي ه", "أميره")
+#   x = str_replace_all(x, "حسير ن", "حسبن")
+#   x = str_replace_all(x, "المعثن ي", "المعني")
+#   x = str_replace_all(x, "شعي ة", "شعيرة")
+#   x = str_replace_all(x, "العي ن", "العين")
+#   x = str_replace_all(x, "مي ا", "ميرا")
+#   x = str_replace_all(x, "ملعن ي", "ملغي")
+#   x
+# }
+
+df_lookup3 = data.frame(
+  x = c("ياعى ن ي", "العي ن", "الكيى ي", "أمي ه", "حسير ن", "المعثن ي", "شعي ة", "العي ن", "مي ا", "ملعن ي"),
+  y = c("ياغي", "العين", "الكتري", "أميره", "حسبن", "المعني", "شعيرة", "العين", "ميرا", "ملغي")
+)
+
+idx = str_detect(df_34$name.z, " [\u0600-\u06ff]( |$)")
+df_34$name.z[idx] = lookup_substitute(df_34$name.x[idx], df_lookup3)
+
+
+# Also fix some lone bigrams: ' [\u0600-\u06ff]{2}(?=( |$))'
+
+df_34 %>%
+  filter(is.na(name.y), str_detect(name.x, " [\u0600-\u06ff]{2}( |$)")) %>%
   mutate(
-    dist_xy = stringdist::stringdist(tname.x, tname.y) / pmax(nchar(tname.x), nchar(tname.y)),
-    dist_xz = stringdist::stringdist(tname.x, tname.z) / pmax(nchar(tname.x), nchar(tname.z)),
-    flg = as.integer(flg)
+    tname.x = arabicStemR::transliterate(name.x),
+    tname.z = arabicStemR::transliterate(name.z)
+  ) %>%
+  select(id, tname.x, tname.z, name.x)
+
+# idx = str_detect(df_34$name.z, " [\u0600-\u06ff]{2}( |$)")
+# df_34$name.z[idx] = {
+#   x = df_34$name.z[idx]
+#   x = str_replace_all(x, "الير يم", "البريم")
+#   x = str_replace_all(x, "النعي ني", "النعيزي")
+#   x = str_replace_all(x, "سرى ي", "شري")
+#   x
+# }
+
+df_lookup4 = data.frame(
+  x = c("الير يم", "النعي ني", "سرى ي"),
+  y = c("البريم", "النعيزي", "شري")
+)
+
+idx = str_detect(df_34$name.z, paste0(df_lookup4$x, collapse="|"))
+df_34$name.z[idx] = lookup_substitute(df_34$name.z[idx], df_lookup4)
+
+# Checks
+
+df_34 = 
+  df_34 %>% 
+  mutate(
+    dist_xy = stringdist::stringdist(name.x, name.y) / pmax(nchar(name.x), nchar(name.y)),
+    dist_yz = stringdist::stringdist(name.y, name.z) / pmax(nchar(name.y), nchar(name.z)),
+    dist_xz = stringdist::stringdist(name.x, name.z) / pmax(nchar(name.x), nchar(name.z))
   )
+
+df_34 %>%
+  filter(!is.na(name.y)) %>%
+  group_by(name.x == name.y) %>%
+  summarise(
+    pct_better = mean(dist_yz < dist_xy), 
+    pct_same = mean(dist_yz == dist_xy), 
+    pct_worse = mean(dist_yz > dist_xy), 
+    pct_fixed = mean(dist_yz == 0 & dist_xy > 0), 
+    n = n()
+  )
+
+# df_34 %>% filter(dist_yz > dist_xy) %>%
+#   mutate(
+#     tname.x = arabicStemR::transliterate(name.x),
+#     tname.y = arabicStemR::transliterate(name.y),
+#     tname.z = arabicStemR::transliterate(name.z)
+#   ) %>%
+#   select(id, tname.x, tname.y, tname.z, name.x) %>% View
 
 
 # Output --------------------------------------------------------------
 
-out = out %>% select(id, gov_id, name.x, name.y, name.z, flg, dist_xy, dist_xz)
+out = 
+  df_34 %>% 
+  filter(name.x != name.z) %>%
+  select(id, name.x, name.z)
 
 write.csv(
   out,
@@ -118,9 +249,8 @@ write.csv(
 # Check write/read
 tmp = read.csv(
   file = output_path, 
-  colClasses = { x = rep("character", 8); x[c(1,6)] = "integer"; x[7:8] = "numeric"; x },
+  colClasses = { x = rep("character", 3); x[1] = "integer"; x },
   na.strings = ""
 )
 all.equal(out, tmp)
 rm("tmp")
-
