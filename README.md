@@ -3,19 +3,16 @@ This repo contains datasets for fatalities data released by the Gaza Ministry of
 ## Datasets 
 
 ### Raw Data Files
-These are the ~bottom-level source files, one for each of the 4 fatality lists MoH released so far via Telegram:
-- `data/source_files/fatalities_20231026.txt` ([source - pdf](https://t.me/MOHMediaGaza/4300))
-    - Converted to text using Adobe Acrobat (File > Export a PDF > Text (Accessible))
-- `data/source_files/fatalities_20240105.xlsx` ([source - xlsx](https://t.me/MOHMediaGaza/4740))
-    - Original xlsx
-- `data/source_files/fatalities_20240329.txt` ([source - pdf](https://t.me/MOHMediaGaza/5261))
-`data/source_files/fatalities_20240430.txt` ([source - pdf](https://t.me/MOHMediaGaza/5405))
-    - Converted from PDF to text as above
+These are the (near) bottom-level source files, one for each of the 4 fatality lists MoH released so far via Telegram:
+- `data/source_files/fatalities_20231026_src.txt` ([source - pdf](https://t.me/MOHMediaGaza/4300)) *
+- `data/source_files/fatalities_20240105_src.xlsx` ([source - xlsx](https://t.me/MOHMediaGaza/4740))
+- `data/source_files/fatalities_20240329_src.txt` ([source - pdf](https://t.me/MOHMediaGaza/5261)) *
+- `data/source_files/fatalities_20240430_src.txt` ([source - pdf](https://t.me/MOHMediaGaza/5405)) *
+- `data/source_files/fatalities_20240630_src.txt` ([source - pdf](https://t.me/MOHMediaGaza/5652)) *
 
-### Minimally Processed CSVs
-- Files: `data/fatalities_(20231026|20240105|20240329|20240430)_raw.csv` 
-- These are the respective outputs of `scripts/01 Data Ingestion (20231026|20240105|20240329|20240430).R` and are more accessible & useful while still faithful to the original documents (no data cleaning, etc.)
+\* Converted to txt using Adobe Acrobat (File > Export a PDF > Text (Accessible))
 
-### Partly Cleaned Up CSVs (WIP - will be deprecated)
-- Files: `data/fatalities_(20231026|20240105|20240329|20240430)_wip.csv`
-- R code: `scripts/02 Preprocessing (20231026|20240105|20240329|20240430).R`
+### Lightly Processed CSVs
+These are more usable datasets in CSV format after light preprocessing (such as standardization of date formats, handling of missing/special values):
+- Files: `data/fatalities_(20231026|20240105|20240329|20240430|20240630).csv` 
+- Parsing & preprocessing scripts: `scripts/01 Data Ingestion (20231026|20240105|20240329|20240430|20240630).R`

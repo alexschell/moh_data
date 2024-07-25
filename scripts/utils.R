@@ -149,9 +149,23 @@ check_luhn = function(x) {
   out
 }
 
+# String distance
+dstring = function(x, y) stringdist::stringdist(x, y) / pmax(nchar(x), nchar(y))
+
 # Clean up names for joining
 strip_names = function(x) {
   x = arabicStemR::removeDiacritics(x)
   x = arabicStemR::fixAlifs(x)
   gsub(" ", "", x)
+}
+
+# Clean up names
+clean_name = function(x) {
+  x = arabicStemR::fixAlifs(x)
+  x = arabicStemR::removeDiacritics(x)
+  x = gsub("(?<=عبد) ", "", x, perl = TRUE)
+  x = gsub("(?<=ابو) ", "", x, perl = TRUE)
+  x = gsub(" (?=الله)", "", x, perl = TRUE)
+  x = gsub(" (?=الدين)", "", x, perl = TRUE)
+  x
 }
