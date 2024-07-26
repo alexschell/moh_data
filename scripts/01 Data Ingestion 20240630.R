@@ -150,11 +150,3 @@ tmp = read.csv(
   na.strings = ""
 )
 all.equal(df, tmp)
-
-# Check write/read
-tmp = read.csv(
-  file = "data/fatalities_20240630_wip.csv",
-  colClasses = { x = rep("character", 10); x[c(1,6)] = "integer"; x[4] = "Date"; x },
-  na.strings = ""
-)
-all.equal(df, tmp)
