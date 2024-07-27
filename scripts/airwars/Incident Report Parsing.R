@@ -81,7 +81,11 @@ df_individuals = df_incidents %>%
   group_by(incident_id, date,group_id, group_is_family, individual_id) %>%
   mutate(info = sapply(info, paste0, collapse=' | ')) %>%
   summarise(info = paste0(info, collapse = ' | '), .groups = "drop") %>% 
-  mutate(info = str_replace_all(arabicStemR::removeDiacritics(info), '[“”"]', '`'))
+  mutate(
+    info = arabicStemR::removeDiacritics(info),
+    info = str_replace_all(info, '[“”"]', '`'),
+    info = str_replace_all(info, ',', '..')
+  )
 
 
 # 2.3. Item level: categorize items -----------------------------------
