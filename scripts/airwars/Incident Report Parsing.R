@@ -80,7 +80,8 @@ df_individuals = df_incidents %>%
   ungroup %>%
   group_by(incident_id, date,group_id, group_is_family, individual_id) %>%
   mutate(info = sapply(info, paste0, collapse=' | ')) %>%
-  summarise(info = paste0(info, collapse = ' | '), .groups = "drop")
+  summarise(info = paste0(info, collapse = ' | '), .groups = "drop") %>% 
+  mutate(info = str_replace_all(arabicStemR::removeDiacritics(info), '[“”"]', '`'))
 
 
 # 2.3. Item level: categorize items -----------------------------------
@@ -89,7 +90,6 @@ df_items = df_individuals
 df_items$item = str_split(df_items$info, " \\| ")
 df_items = df_items %>%
   tidyr::unnest(item) %>% 
-  mutate(item = arabicStemR::removeDiacritics(item)) %>%
   group_by(incident_id, group_id, individual_id) %>% 
   mutate(item_id = row_number()) %>%
   mutate(
@@ -124,9 +124,19 @@ df_items %>%
   filter(!str_detect(pattern, "^designator_en( designator_ar)?( age| age_category)?( sex)?( pregnant)?( relation)?( comment)?( casualty_type)?( moh_id)?$")) %>% 
   select(incident_id, group_id, individual_id, item_id, item, item_type)
 
+df_items %>% 
+  group_by(incident_id, group_id, individual_id) %>% 
+  mutate(n = n()) %>%
+  ungroup() %>%
+  filter(n == 1) %>%
+  select(incident_id, group_id, individual_id, item_id, item, item_type)
+
 # Fix
 idx = with(df_items, incident_id == "ispt0417" & group_id == 1 & individual_id %in% 21:22 & item_id == 5)
 df_items$item_type[idx] = "comment"
+
+idx = with(df_items, incident_id == "ispt0231" & group_id == 1 & individual_id == 17)
+df_items = df_items[!idx, ]
 
 
 # 2.4. Map items back to individual level -----------------------------

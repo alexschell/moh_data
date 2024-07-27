@@ -1,11 +1,11 @@
 incident_id,date,group_id,group_is_family,individual_id,designator_en,designator_ar,age,age_category,sex,pregnant,relation,comment,killed_or_injured,moh_id,flags
 ispt0001,2023-10-07,1,0,1,Mahmoud Hussein Othman,محمود حسين عثمان,,adult,m,0,,,k,,
-ispt0001,2023-10-07,1,0,2,Nazmi Abu Hadayed,نظمي أبو حدايد "أبو عدي,,adult,m,0,,,i,,
+ispt0001,2023-10-07,1,0,2,Nazmi Abu Hadayed,نظمي أبو حدايد `أبو عدي,,adult,m,0,,,i,,
 ispt0001,2023-10-07,1,0,3,Odeh Al-Kurdi,عودة الكرد,,adult,m,0,,,i,,
 ispt00012,2023-10-07,1,0,1,Marwan Abu Raida,مروان ابو ريدة,54,,m,0,,,k,950602979,
 ispt00013,2023-10-07,1,0,1,Ibrahim Qanan,ابراهيم قنن,50,,m,0,,,i,,
-ispt0002,2023-10-07,1,1,1,Hajj Hamdan Al-Najjar “Abu Zaki”,الحج حمدان النجار ابو زكي,,adult,m,0,,,k,,
-ispt0002,2023-10-07,1,1,2,Mrs. Zahira Al-Najjar, “Umm Zaki”,السيدة زهرة النجار أم زكي,,adult,f,0,,,k,,
+ispt0002,2023-10-07,1,1,1,Hajj Hamdan Al-Najjar `Abu Zaki`,الحج حمدان النجار ابو زكي,,adult,m,0,,,k,,
+ispt0002,2023-10-07,1,1,2,Mrs. Zahira Al-Najjar, `Umm Zaki`,السيدة زهرة النجار أم زكي,,adult,f,0,,,k,,
 ispt0002,2023-10-07,1,1,3,Mohamed Hamdan Al-Najjar,محمد حمدان النجار,17,,m,0,,,k,424376333,
 ispt0002,2023-10-07,1,1,4,Aya Salah Hamdan Al-Najjar,ايه صباح النجار,4,,f,0,,,k,441081957,
 ispt0002,2023-10-07,1,1,5,Ehtiram Al Najjar,احترام النجار,34,,f,0,,,k,802479592,
@@ -124,7 +124,7 @@ ispt0020,2023-10-08,1,1,12,Muhammad Jaafar Attiya al-Nabahin,محمد جعفر �
 ispt0020,2023-10-08,1,1,13,Rahaf Jaafar Attiya al-Nabahin,رهف جعفر عطية النباهين,15,,f,0,,,k,426209417,
 ispt0020,2023-10-08,1,1,14,Attiya Fathi Attiya al-Nabahin,عطية فتحي عطية النباهين,24,,m,0,,,k,404772931,
 ispt0020,2023-10-08,1,1,15,Halima Al-Nabahin,حليمة النباهين,,adult,f,0,,,k,,
-ispt0020,2023-10-08,1,1,16,mother of “Fathi Al-Nabahin,أم فتحي النباهين,,adult,f,0,,,k,,designator is relation
+ispt0020,2023-10-08,1,1,16,mother of `Fathi Al-Nabahin,أم فتحي النباهين,,adult,f,0,,,k,,designator is relation
 ispt0022,2023-10-08,1,1,1,Daughter of Bilal Salama,,,,f,0,,,i,,designator is relation
 ispt0022,2023-10-08,1,1,2,Father of Bilal Salama,,,,m,0,,,i,,designator is relation
 ispt0022,2023-10-08,1,1,3,Mother of Bilal Salama,,,,f,0,,,i,,designator is relation
@@ -184,8 +184,8 @@ ispt0035,2023-10-08,1,1,4,Tala Jihad Abdullah Abu Rikab,تالا جهاد عبد
 ispt0035,2023-10-08,1,1,5,Maria Jihad Abdullah Abu Rikab,ماريا جهاد عبدالله ابو ركاب,8,,f,0,their child,,k,436102685,
 ispt0035,2023-10-08,1,1,6,Sewar Jihad Abdullah Abu Rikab,سوار جهاد عبدالله ابو ركاب,6,,f,0,their child,,k,438217895,
 ispt0035,2023-10-08,1,1,7,Sham Jihad Abdullah Aburkab,شام جهاد عبدالله ابو ركاب,4,,m,0,their child,,k,438392193,
-ispt0036,2023-10-08,1,1,1,Ayman Younis “Abu Al-Abd”,أيمن يونس,50,,m,0,,,k,953999265,
-ispt0036,2023-10-08,1,1,2,Areej “Umm al-Abd.”,أريج,,,f,0,Wife of Ayman,,k,,
+ispt0036,2023-10-08,1,1,1,Ayman Younis `Abu Al-Abd`,أيمن يونس,50,,m,0,,,k,953999265,
+ispt0036,2023-10-08,1,1,2,Areej `Umm al-Abd.`,أريج,,,f,0,Wife of Ayman,,k,,
 ispt0036,2023-10-08,1,1,3,Abdul Aziz Ayman Younis,عبد العزيز أيمن,14,,m,0,Child of Ayman and Areej,,k,426449476,
 ispt0036,2023-10-08,1,1,4,Alaa Ayman Younis,الاء ايمن يونس,20,,f,0,Child of Ayman and Areej,,k,408874675,
 ispt0036,2023-10-08,1,1,5,Hala Ayman Younis,حلا أيمن يونس,18,,f,0,Child of Ayman and Areej,,k,421265133,
@@ -375,13 +375,13 @@ ispt0062,2023-10-09,1,1,2,Tasnim Ibrahim Abu Shamala,تسنيم ابراهيم �
 ispt0062,2023-10-09,1,1,3,Mahmoud Ibrahim Abu Shamala,محمود ابراهيم أبو شمالة,13,,m,0,Fatima's son,,k,429738578,
 ispt0062,2023-10-09,1,1,4,Yasmine Ibrahim Abu Shamala,ياسمين ابراهيم أبو شمالة,6,,m,0,Fatima's daughter,,k,429738578,
 ispt0062,2023-10-09,1,1,5,Elias Ibrahim Abu Shamala,الياس ابراهيم أبو شمالة,,,m,0,,unclear if he was killed or injured,k,,
-ispt0063,2023-10-09,1,0,1,Musa Ismail Matar (“Abu Ismail”),موسى اسماعيل مطر,61,,m,0,,,k,967206269,
+ispt0063,2023-10-09,1,0,1,Musa Ismail Matar (`Abu Ismail`),موسى اسماعيل مطر,61,,m,0,,,k,967206269,
 ispt0063,2023-10-09,1,0,2,Yusra Hosni Abdullah Abu Marq (Umm Marwan),يسرى حسني ابو ماروق ام مروان,84,,f,0,,,k,920861028,
 ispt0063,2023-10-09,1,0,3,Ibrahim Fares Al-Aqra,ابراهيم فارس الاقرع,19,,m,0,,,k,409917234,
 ispt0064,2023-10-09,1,1,1,Mira Abu Ghanima,ميرا ابو غنيمة,6,,f,0,,,k,437291008,
 ispt0064,2023-10-09,1,1,2,Lara Abu Ghanima,لارا ابو غنيمة,5,,f,0,her sister,,k,440494672,
-ispt0067,2023-10-09,1,1,1,Muhammad Issa Muhammad Qannan (“Abu Issa”),محمد عيسى محمد قنن (ابوعيسى,,adult,m,0,,,k,,
-ispt0067,2023-10-09,1,1,2,Zuhdiyah Mahmud Muhammad Qannan (“Umm Issa”),زهدية محمود درويش قنن (ام عيسى,71,,f,0,,,k,937370658,
+ispt0067,2023-10-09,1,1,1,Muhammad Issa Muhammad Qannan (`Abu Issa`),محمد عيسى محمد قنن (ابوعيسى,,adult,m,0,,,k,,
+ispt0067,2023-10-09,1,1,2,Zuhdiyah Mahmud Muhammad Qannan (`Umm Issa`),زهدية محمود درويش قنن (ام عيسى,71,,f,0,,,k,937370658,
 ispt0067,2023-10-09,1,1,3,Wissal Muhammad Issa Qannan,وصال محمد عيسى قنن,46,,f,0,,,k,950603894,
 ispt0067,2023-10-09,1,1,4,Mahmoud Muhammad Issa Qanan (Abu Jihad),محمود محمد عيسى قنن (ابو جهاد ),40,,m,0,,,k,801024969,
 ispt0067,2023-10-09,1,1,5,Khitam Abu Odeh,ختام سمير ابو عوده,36,,f,1,,,k,800668675,
@@ -445,7 +445,7 @@ ispt0077,2023-10-10,1,1,2,Salam Khalil Mayma,سلام خليل ميمة,33,,f,0,
 ispt0077,2023-10-10,1,1,3,Hadi al-Masry,هادي المصري,7,,m,0,,,k,437003122,
 ispt0077,2023-10-10,1,1,4,Ali al-Masry,علي المصري,5,,m,0,,unclear if he was killed or injured,k,,
 ispt0077,2023-10-10,1,1,5,Sham al-Masry,شام المصري,2,,f,0,,,k,445433667,
-ispt0079,2023-10-10,1,1,1,Ashraf Ismail Jabr Al-Qara “Abu Muhannad”,اشرف اسماعيل جبر القرا "ابو مهند",53,,m,0,,,k,413317470,
+ispt0079,2023-10-10,1,1,1,Ashraf Ismail Jabr Al-Qara `Abu Muhannad`,اشرف اسماعيل جبر القرا `ابو مهند`,53,,m,0,,,k,413317470,
 ispt0079,2023-10-10,1,1,2,Mohamed Ashraf Ismail Al-Qara,محمد اشرف اسماعيل القرا,23,,m,0,,,k,406081661,
 ispt0079,2023-10-10,1,1,3,Waad Ashraf Ismail Al-Qara,وعد اشرف اسماعيل جبر القرا,18,,f,0,,,k,422499988,
 ispt0079,2023-10-10,1,1,4,Iman Ashraf Ismail Al-Qara,ايمان اشرف اسماعيل القرا,,,f,0,,,k,,
@@ -799,14 +799,14 @@ ispt0125,2023-10-10,3,1,1,Youssef Bassam El-Sherbiny,يوسف بسام الشر�
 ispt0125,2023-10-10,3,1,2,Youssef Bassam El-Sherbiny's wife,زوجة يوسف بسام الشربيني,,adult,f,0,,,k,,designator is relation
 ispt0125,2023-10-10,3,1,3,Youssef Bassam El-Sherbiny's first child,طفل يوسف بسام الشربيني,,child,,0,,,k,,designator is relation
 ispt0125,2023-10-10,3,1,4,Youssef Bassam El-Sherbiny's second child,طفل يوسف بسام الشربيني,,child,,0,,,k,,designator is relation
-ispt0125,2023-10-10,4,1,1,Ashraf Muhammad Daabes “Abu Dia”,أشرف محمد دعابس,,adult,m,0,,,k,,
-ispt0125,2023-10-10,4,1,2,Ashraf Muhammad Daabes “Abu Dia”'s wife,زوجة أشرف دعابس,,adult,f,0,,,k,,designator is relation
-ispt0125,2023-10-10,4,1,3,Diaa Ashraf Daabes,ضياء أشرف دعابس,,child,m,0,Ashraf Muhammad Daabes “Abu Dia”'s first child,,k,,
-ispt0125,2023-10-10,4,1,4,Muhammad Ashraf Daabes,محمد اشرف دعابس,,child,m,0,Ashraf Muhammad Daabes “Abu Dia”'s second child,,k,,
-ispt0125,2023-10-10,4,1,5,Ahmed Ashraf Daabes,احمد اشرف دعابس,,child,m,0,Ashraf Muhammad Daabes “Abu Dia”'s third child,,k,,
-ispt0125,2023-10-10,4,1,6,Ahmed Ayman Daabes,احمد ايمن دعابس,,child,m,0,Ayman Daabes “Abu Ahmed's first son - Ayman Daabes “Abu Ahmed is a cousin of Ashraf Muhammad Daabes “Abu Dia,,k,,
-ispt0125,2023-10-10,4,1,7,Muhammad Ayman Daabes,محمد ايمن دعابس,,child,m,0,Ayman Daabes “Abu Ahmed's second son,,k,,
-ispt0125,2023-10-10,4,1,8,Bakr Ayman Daabes,بكر ايمن دعابس,,child,m,0,Ayman Daabes “Abu Ahmed's third son,,k,,
+ispt0125,2023-10-10,4,1,1,Ashraf Muhammad Daabes `Abu Dia`,أشرف محمد دعابس,,adult,m,0,,,k,,
+ispt0125,2023-10-10,4,1,2,Ashraf Muhammad Daabes `Abu Dia`'s wife,زوجة أشرف دعابس,,adult,f,0,,,k,,designator is relation
+ispt0125,2023-10-10,4,1,3,Diaa Ashraf Daabes,ضياء أشرف دعابس,,child,m,0,Ashraf Muhammad Daabes `Abu Dia`'s first child,,k,,
+ispt0125,2023-10-10,4,1,4,Muhammad Ashraf Daabes,محمد اشرف دعابس,,child,m,0,Ashraf Muhammad Daabes `Abu Dia`'s second child,,k,,
+ispt0125,2023-10-10,4,1,5,Ahmed Ashraf Daabes,احمد اشرف دعابس,,child,m,0,Ashraf Muhammad Daabes `Abu Dia`'s third child,,k,,
+ispt0125,2023-10-10,4,1,6,Ahmed Ayman Daabes,احمد ايمن دعابس,,child,m,0,Ayman Daabes `Abu Ahmed's first son - Ayman Daabes `Abu Ahmed is a cousin of Ashraf Muhammad Daabes `Abu Dia,,k,,
+ispt0125,2023-10-10,4,1,7,Muhammad Ayman Daabes,محمد ايمن دعابس,,child,m,0,Ayman Daabes `Abu Ahmed's second son,,k,,
+ispt0125,2023-10-10,4,1,8,Bakr Ayman Daabes,بكر ايمن دعابس,,child,m,0,Ayman Daabes `Abu Ahmed's third son,,k,,
 ispt0125,2023-10-10,5,1,1,Abu Alaa Hussein,ابو علاء حسين,,adult,m,0,,,k,,
 ispt0125,2023-10-10,5,1,2,Abu Alaa Hussein's wife,زوجة ابو علاء حسين,,adult,f,0,,,k,,designator is relation
 ispt0125,2023-10-10,5,1,3,Abu Alaa Hussein's first child,ابن ابو علاء حسين,,child,,0,,,k,,designator is relation
@@ -1241,9 +1241,9 @@ ispt0187e,2023-10-13,1,1,4,Joan Yahya Youssef Al-Astal,جوان يحيى يوس�
 ispt0187e,2023-10-13,1,1,5,Mian Yahya Yusuf Al-Astal,ميان يحيى يوسف الأسطل,0.2,,f,0,,,k,444351654,
 ispt0187e,2023-10-13,1,1,6,Joan and Mian's mother,,,adult,f,0,,,i,,designator is relation
 ispt0187e,2023-10-13,1,1,7,Joan and Mian's brother,,,,m,0,,,i,,designator is relation
-ispt0187f,2023-10-13,1,1,1,Shawqi Hussein Baraka “Abu Muhammad”,شوقي حسين بركة ابو محمد,,adult,m,0,,,k,,
-ispt0187f,2023-10-13,1,1,2,Adly Hussein Baraka “Abu Mahmoud”,حسين بركة ابو محمود,59,,m,0,,,k,920078300,
-ispt0187f,2023-10-13,1,1,3,Muhammad Baraka “Abu Hassan”,محمد بركة ابو حسين,44,,m,0,,,k,903577757,
+ispt0187f,2023-10-13,1,1,1,Shawqi Hussein Baraka `Abu Muhammad`,شوقي حسين بركة ابو محمد,,adult,m,0,,,k,,
+ispt0187f,2023-10-13,1,1,2,Adly Hussein Baraka `Abu Mahmoud`,حسين بركة ابو محمود,59,,m,0,,,k,920078300,
+ispt0187f,2023-10-13,1,1,3,Muhammad Baraka `Abu Hassan`,محمد بركة ابو حسين,44,,m,0,,,k,903577757,
 ispt0187ga,2023-10-13,1,1,1,Aryam Al-Durra,أريام الدرة,11,,f,0,,,k,432273001,
 ispt0187ga,2023-10-13,1,1,2,Nael Al-Durra,نائل الدرة,48,,m,0,,,k,900986316,
 ispt0187ga,2023-10-13,1,1,3,Iyad Al-Durra,اياد الدرة,46,,m,0,,,k,901466698,
@@ -1275,7 +1275,7 @@ ispt0187gc,2023-10-13,1,1,1,Maher Subhi Abu-Lashin,ماهر صبحي ابو لا
 ispt0187gc,2023-10-13,1,1,2,Alaa Abu Lashin,علاء ابو لاشين,22,,m,0,,,k,407164391,
 ispt0187gc,2023-10-13,1,1,3,Mariam Abu-Lashin,مريم ابو لاشين,19,,f,0,,,k,420534349,
 ispt0187gc,2023-10-13,1,1,4,Asaad Abu Lashin,اسعد ابو لاشين,28,,m,0,,,,400801338,
-ispt0187gc,2023-10-13,1,1,5,Tahani Mohammed Al-Bardawil (Abu-Lashin),( تهاني محمد البردويل ) " ابو لاشين",28,,f,0,,,,400529681,
+ispt0187gc,2023-10-13,1,1,5,Tahani Mohammed Al-Bardawil (Abu-Lashin),( تهاني محمد البردويل ) ` ابو لاشين`,28,,f,0,,,,400529681,
 ispt0187gc,2023-10-13,1,1,6,Maher Asaad Abu-Lashin,ماهر اسعد ابو لاشين,5,,m,0,,,k,440517910,
 ispt0187gc,2023-10-13,1,1,7,Judi Asaad Maher Abu-Lashin,جودي اسعد ماهر ابو لاشين,0.6,,f,0,,,k,,
 ispt0187gc,2023-10-13,1,1,8,Ghazal Asaad Maher Abu-Lashin,غزل اسعد ماهر ابو لاشين,0.6,,f,0,,,k,444185136,
@@ -1577,13 +1577,12 @@ ispt0231,2023-10-15,1,1,13,Sondos Manar Farwana,منار فروانة,26,,f,0,Wi
 ispt0231,2023-10-15,1,1,14,Maryam Abdel Aziz Farwana,مريم عبدالعزيز فروانة,3,,f,0,daughter of Abdulaziz,,k,443017504,
 ispt0231,2023-10-15,1,1,15,Ayat Abdel Aziz Farwana,ايات عبدالعزيز فروانة,0.1,,f,0,daughter of Abdulaziz,,k,445359581,
 ispt0231,2023-10-15,1,1,16,Lynn Saleh Maher Farwana,لين صالح ماهر الفراونة,,child,f,0,,,i,,
-ispt0231,2023-10-15,1,1,17,{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"stroke":"#ff0000","stroke-width":1,"stroke-opacity":1,"fill-opacity":0},"geometry":{"type":"Polygon","coordinates":[[[34.4331049,31.509392],[34.4367743,31.5069223],[34.4438552,31.5030804],[34.4572448,31.4964208],[34.4566225,31.4959817],[34.4563436,31.4956523],[34.4559359,31.4949571],[34.4557428,31.4945179],[34.4549274,31.4932189],[34.454348,31.4927614],[34.4529747,31.4913708],[34.4527387,31.4911513],[34.4520521,31.49009],[34.4498634,31.4880041],[34.4472026,31.4900534],[34.4436835,31.4912976],[34.4354223,31.4969147],[34.4328045,31.4988542],[34.431796,31.4996957],[34.4339418,31.5007752],[34.4336843,31.5010131],[34.4318175,31.5015071],[34.4281482,31.5037024],[34.4306802,31.5066296],[34.4321822,31.5083492],[34.4331049,31.509392]]]}}]},,,,,0,,,,,
 ispt0235,2023-10-15,1,1,1,Dr. Salah al-Din Muhammad Awad Zanoun _ Abu Ahmed,الدكتور صلاح الدين محمد عواد زنون,59,,m,0,,,k,412366080,
 ispt0235,2023-10-15,1,1,2,Etemad Miqdad, Umm Ahmed,اعتماد مقداد,53,,f,0,Wife of Dr. Salah,,k,413325473,
 ispt0235,2023-10-15,1,1,3,Dr. Ahmed Salah al-Din Zanoun,الدكتور احمد صلاح الدين زنون,27,,m,0,Son of Dr. Salah,,k,421207887,
 ispt0235,2023-10-15,1,1,4,Saif al-Din Salah al-Din Zanoun,سيف الدين صلاح الدين زنون,25,,m,0,Son of Dr. Salah,,k,421207879,
 ispt0235,2023-10-15,1,1,5,Ihab Salah El-Din Zanoun,ايهاب صلاح الدين زنون,,,m,0,Son of Dr. Salah,,k,,
-ispt0235,2023-10-15,1,1,6,Karima Salah El-Din Zanoun,كريمة صلاح الدين زنون,,,f,0,Daughter of Dr. Salah. One source reported that she "survived" the attack,,k,,
+ispt0235,2023-10-15,1,1,6,Karima Salah El-Din Zanoun,كريمة صلاح الدين زنون,,,f,0,Daughter of Dr. Salah. One source reported that she `survived` the attack,,k,,
 ispt0235,2023-10-15,1,1,7,Muhammad Musa Zanoun,محمد موسى زنون,32,,m,0,Nephew of Dr. Salah,,k,803256387,
 ispt0236a,2023-10-15,1,1,1,Youssef Mohammed Abu Musa,يوسف محمد ابو موسى,6,,m,0,,,k,439010109,
 ispt0236a,2023-10-15,1,1,2,Hamid Jaser Jaser Abu Musa,حميد جاسر حميد ابو موسى,18,,m,0,,,k,421330911,
@@ -1824,7 +1823,7 @@ ispt0278,2023-10-17,5,1,1,sister of Fares and Munir Mansour Esbeita,أخت فا�
 ispt0278,2023-10-17,5,1,2,Child,,,child,,0,,,i,,designator is relation
 ispt0278,2023-10-17,5,1,3,Child,,,child,,0,,,i,,designator is relation
 ispt0278,2023-10-17,6,1,1,Mansoura Ali Aslim,منصورة علي إسليم,,,,0,,,k,,
-ispt0278,2023-10-17,6,1,2,Nabil Khalaf's wife,زوجة نبيل خلف,,adult,f,0,Muhammad Ali Aslim “Abu Adel”'s daughter,,k,,designator is relation
+ispt0278,2023-10-17,6,1,2,Nabil Khalaf's wife,زوجة نبيل خلف,,adult,f,0,Muhammad Ali Aslim `Abu Adel`'s daughter,,k,,designator is relation
 ispt0278,2023-10-17,6,1,3,Lara Khalaf,لارا خلف,,child,f,0,,,k,,
 ispt0278,2023-10-17,6,1,4,Jumana Khalaf,جمانة خلف,,child,f,0,,,k,,
 ispt0278,2023-10-17,6,1,5,Joan Khalaf,جوان خلف,,child,m,0,,,k,,
@@ -2678,7 +2677,7 @@ ispt0413,2023-10-20,1,1,16,Muhammad Atef Abu Shuaib,محمد عاطف أبو ش�
 ispt0413,2023-10-20,1,1,17,Hala Atef Abu Shuaib,هالة عاطف أبو شعيب,,child,f,0,Atef and Manal's child,,k,,
 ispt0414,2023-10-20,1,1,1,Hajer Muhammad Al-Ajrami,هيجر محمد العجرمي,72,,f,0,,,k,949861058,
 ispt0414,2023-10-20,1,1,2,Shehdeh Jabr Al-Ajrami,شحدة جبر العجرمي,38,,m,0,,,k,801317553,
-ispt0414,2023-10-20,1,1,3,Mona Al-Bahnasawy Al-Ajrami,منى البهنساوي "العجرمي,37,,f,0,,,k,,
+ispt0414,2023-10-20,1,1,3,Mona Al-Bahnasawy Al-Ajrami,منى البهنساوي `العجرمي,37,,f,0,,,k,,
 ispt0414,2023-10-20,1,1,4,Suhaib Shehdeh Al-Ajrami,صهيب شحدة العجرمي,15,,m,0,,,k,,
 ispt0414,2023-10-20,1,1,5,Mustafa Shehdeh Al-Ajrami,مصطفى شحدة العجرمي,12,,m,0,,,k,430139410,
 ispt0414,2023-10-20,1,1,6,Muhammad Shehda Al-Ajrami,محمد شحدة العجرمي,6,,m,0,,,k,437320963,
@@ -3807,9 +3806,9 @@ ispt0587,2023-10-25,7,1,5,Akram Khalil Mahdi,أكرم خليل مهدي,,child,m
 ispt0587,2023-10-25,7,1,6,Loreen Khalil Mahdi,لورين خليل مهدي,0.6,,f,0,,,i,,
 ispt0587,2023-10-25,7,1,7,Ahmad Zakariya Mahdi,أحمد زكريا مهدي,,,m,0,,,k,,
 ispt0587,2023-10-25,7,1,8,Hind Mahdi,هند مهدي,,,f,0,,,k,,
-ispt0587,2023-10-25,8,1,1,Mr. Saeed Bakhit “Abu Osama”,سعيد بخيت "أبو أسامة",,adult,m,0,,,k,,
-ispt0587,2023-10-25,8,1,2,Son of Mr. Saeed Bakhit “Abu Osama”,,,,m,0,,,k,,designator is relation
-ispt0587,2023-10-25,8,1,3,Son of Mr. Saeed Bakhit “Abu Osama”,,,,m,0,,,k,,designator is relation
+ispt0587,2023-10-25,8,1,1,Mr. Saeed Bakhit `Abu Osama`,سعيد بخيت `أبو أسامة`,,adult,m,0,,,k,,
+ispt0587,2023-10-25,8,1,2,Son of Mr. Saeed Bakhit `Abu Osama`,,,,m,0,,,k,,designator is relation
+ispt0587,2023-10-25,8,1,3,Son of Mr. Saeed Bakhit `Abu Osama`,,,,m,0,,,k,,designator is relation
 ispt0587,2023-10-25,8,1,4,Dr. Muhammad Bakhit *Abu Yasser*,محمد حسن بخيت,,adult,m,0,,,k,,
 ispt0587,2023-10-25,8,1,5,Wife of Dr. Muhammad Bakhit *Abu Yasser*,زوجة محمد حسن البخيت,,adult,f,0,,,k,,designator is relation
 ispt0587,2023-10-25,8,1,6,Yasser Bakhit,ياسر بخيت,,,m,0,,,k,,
@@ -3983,7 +3982,7 @@ ispt0783,2023-10-31,1,1,5,Wasel Abo Al-Quoumsan,واصل أبو القمصان,,
 ispt0783,2023-10-31,1,1,6,Mohannad Abo Al Qoumsan,مهند أبو القمصان,,child,m,0,Abo Firas's son,,k,,
 ispt0783,2023-10-31,1,1,7,Nabough Abo Al Qoumsan,نبوغ أبو القمصان,,child,f,0,Abo Firas's daughter,,k,,
 ispt0783,2023-10-31,1,1,8,Abrar Abo Al Qoumsan,أبرار أبو القمصان,,child,f,0,Abo Firas's daughter,,k,,
-ispt0783,2023-10-31,1,1,9,Umayya Abo Al Qoumsan,أمية أبو القمصان,,adult,f,0,“Mahmoud Abo Al Qoumsan”'s sister,,k,,
+ispt0783,2023-10-31,1,1,9,Umayya Abo Al Qoumsan,أمية أبو القمصان,,adult,f,0,`Mahmoud Abo Al Qoumsan`'s sister,,k,,
 ispt0783,2023-10-31,1,1,10,Thib Abo Al Qoumsan's wife,زوجة ذيب أبو القمصان,,adult,f,0,,,k,,designator is relation
 ispt0783,2023-10-31,1,1,11,Rahaf Abo Al Qoumsan,رهف أبو القمصان,,child,f,0,Thib Abo Al Qoumsan's daughter,,k,,
 ispt0783,2023-10-31,1,1,12,Layan Abo Al Qoumsan,ليان أبو القمصان,,child,f,0,Thib Abo Al Qoumsan's daughter,,k,,
@@ -4041,7 +4040,7 @@ ispt0783,2023-10-31,7,1,3,Rital Youssef Abu Al-Omrain,ريتال يوسف أبو
 ispt0783,2023-10-31,7,1,4,Abdul Karim Youssef Abu Al-Omrain,عبدالكريم يوسف أبوالعمرين,,child,m,0,Ahmed and Reem's child,,k,,
 ispt0783,2023-10-31,7,1,5,Zaher Ramadan Abu Al-Omrain,زاهر رمضان أبو العمرين,,child,m,0,Ahmed and Reem's child,,k,,
 ispt0783,2023-10-31,8,1,1,Raed Ahmad Rayyan,رائد أحمد ريان,,adult,m,0,,,k,,
-ispt0783,2023-10-31,8,1,2,Hanna Rayyan,هناء ريان,,adult,f,0,wife of Raed Rayyan "Abu Saedd",,k,,
+ispt0783,2023-10-31,8,1,2,Hanna Rayyan,هناء ريان,,adult,f,0,wife of Raed Rayyan `Abu Saedd`,,k,,
 ispt0783,2023-10-31,8,1,3,Sa’ed Rayyan,سائد ريان,,child,m,0,Hanna and Raed's son,,k,,
 ispt0783,2023-10-31,8,1,4,Maher Rayyan,ماهر ريان,,adult,m,0,,Doctor,k,,
 ispt0783,2023-10-31,8,1,5,Anwar Rayyan,أنوار ريان,,child,f,0,Hanna and Raed's daughter,,k,,
@@ -4084,7 +4083,7 @@ ispt0783,2023-10-31,10,1,23,Muhammad Okasha,محمد عكاشة,,adult,m,0,,,k,,
 ispt0783,2023-10-31,10,1,24,Masa Okasha,ماسة عكاشة,,child,f,0,Daughter of Mohammed,,k,,
 ispt0783,2023-10-31,10,1,25,Rakan Okasha,راكان عكاشة,,child,m,0,Son of Mohammed,,k,,
 ispt0783,2023-10-31,10,1,26,Ameed, Okasha,عميد عكاشة,,child,m,0,Son of Mohammed,,k,,
-ispt0783,2023-10-31,11,1,1,Kamal Hamad "Abu Diaa",كمال حمد,,adult,m,0,,,k,,
+ispt0783,2023-10-31,11,1,1,Kamal Hamad `Abu Diaa`,كمال حمد,,adult,m,0,,,k,,
 ispt0783,2023-10-31,11,1,2,Kamal Hamad's son,,,child,m,0,,,k,,designator is relation
 ispt0783,2023-10-31,12,0,1,Jumaa Mohammed Al Sharawi,جمعة محمد الشعراوي,,adult,m,0,,,k,,
 ispt0784,2023-10-31,1,1,1,Umm Issam Joyfel,أم عصام جويفل,,adult,f,0,,,k,,
@@ -4372,7 +4371,7 @@ ispt1122,2023-11-15,2,1,29,Khaled Fathi Massoud Doghmush,خالد فتحي مس�
 ispt1122,2023-11-15,2,1,30,Mustafa Yasser Nabil Doghmush,مصطفى ياسر نبيل دغمش,,unknown,m,0,,,k,,
 ispt1122,2023-11-15,2,1,31,Enayat Abdel-Ghani Doghmush,عنايات عبد الغني دغمش,,unknown,f,0,,,k,,
 ispt1122,2023-11-15,2,1,32,Nozha Abdel-Nabi Abdel-Ghani Doghmush,نزهة عبد النبي عبد الغني دغمش,,unknown,f,0,,,k,,
-ispt1122,2023-11-15,3,0,1,Omar Al-Khor “Abu Tariq”,عمر الخور,,unknown,m,0,,,k,,
+ispt1122,2023-11-15,3,0,1,Omar Al-Khor `Abu Tariq`,عمر الخور,,unknown,m,0,,,k,,
 ispt1122,2023-11-15,3,0,2,Ramzi Suleiman Al Khor,رمزي الخور,,unknown,m,0,,,k,,
 ispt1122,2023-11-15,3,0,3,Hamza Mansour,حمزة منصور,,unknown,m,0,,,i,,
 ispt1135a,2023-11-15,1,1,1,Jewan Al-Ashram,جوان الأشرم,5,,f,0,,,i,,
