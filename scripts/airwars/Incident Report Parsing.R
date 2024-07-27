@@ -1,54 +1,18 @@
 library(magrittr)
 library(dplyr)
+library(tidyr)
 library(stringr)
 library(lubridate)
 library(xml2)
 library(arabicStemR)
 
-# 1. Function Definitions ------------------------------------------------
+source("scripts/airwars/utils.R")
 
-flatten<-function(x) {
-  dumnames<-unlist(getnames(x,T))
-  dumnames<-gsub("(*.)\\.1","\\1",dumnames)
-  repeat {
-    x <- do.call(.Primitive("c"), x)
-    if(!any(vapply(x, is.list, logical(1)))){
-      names(x)<-dumnames
-      return(x)
-    }
-  }
-}
+# 1. Function to parse victims from Airwars.org URL -------------------
 
-getnames<-function(x,recursive){
+get_report_victims_from_url = function(url) {
   
-  nametree <- function(x, parent_name, depth) {
-    if (length(x) == 0) 
-      return(character(0))
-    x_names <- names(x)
-    if (is.null(x_names)){ 
-      x_names <- seq_along(x)
-      x_names <- paste(parent_name, x_names, sep = "")
-    }else{ 
-      x_names[x_names==""] <- seq_along(x)[x_names==""]
-      x_names <- paste(parent_name, x_names, sep = "")
-    }
-    if (!is.list(x) || (!recursive && depth >= 1L)) 
-      return(x_names)
-    x_names <- paste(x_names, ".", sep = "")
-    lapply(seq_len(length(x)), function(i) nametree(x[[i]], 
-                                                    x_names[i], depth + 1L))
-  }
-  nametree(x, "", 0L)
-}
-
-url_to_list = function(html) {
-  x = xml2::read_html(html)
-  flatten(as_list(x))
-}
-
-get_report_victims = function(html) {
-  
-  x = url_to_list(html)
+  x = flatten(as_list(xml2::read_html(url)))
   
   idx0 = x %>% sapply(str_detect, "The victims were named as:") %>% which %>% head(1)
   idx1 = x %>% sapply(str_detect, "Media from sources|Sources|Summary|Geolocation notes") %>% which %>% head(1)
@@ -82,17 +46,18 @@ get_report_victims = function(html) {
 }
 
 
-# 2. Read data --------------------------------------------------------
+# 2. Read & process victims data --------------------------------------s
 
 # 2.1. Incident level -------------------------------------------------
 
 urls = readLines("data/airwars/incident_urls.txt")
 
-ls = lapply(urls, get_report_victims)
+ls = lapply(urls, get_report_victims_from_url)
 
 df_incidents = data.frame(
   incident_id = str_extract(urls, "ispt[0-9]+[a-z]{0,2}"),
-  url = urls
+  url = urls,
+  date = lubridate::mdy(str_extract(urls, "[a-z]+-[0-9]{1,2}-[0-9]{4}"))
 )
 df_incidents$info = ls
 
@@ -103,22 +68,17 @@ df_individuals = df_incidents %>%
   tidyr::unnest(info) %>%
   group_by(incident_id) %>%
   filter(row_number() != 1) %>%
-  mutate(group_index = cumsum(as.numeric(sapply(info, function(x) all(str_detect(x, "Family members|The victims were named as")))))) %>%
+  mutate(group_id = cumsum(as.numeric(sapply(info, function(x) all(str_detect(x, "Family members|The victims were named as")))))) %>%
   ungroup %>%
-  group_by(incident_id, group_index) %>%
+  group_by(incident_id, group_id) %>%
   mutate(group_is_family = as.numeric(str_detect(paste0(info[1], collapse=" "), "Family members"))) %>%
-  filter(group_index == 0 | row_number() > 1) %>%
-  mutate(individual_index = case_when(group_is_family == 1 ~ row_number(), TRUE ~ ceiling(row_number() / 2))) %>%
+  filter(group_id == 0 | row_number() > 1) %>%
+  mutate(individual_id = case_when(group_is_family == 1 ~ row_number(), TRUE ~ ceiling(row_number() / 2))) %>%
   ungroup %>%
   group_by(incident_id) %>%
-  mutate(group_index = group_index - min(group_index) + 1) %>%
+  mutate(group_id = group_id - min(group_id) + 1) %>%
   ungroup %>%
-  mutate(
-    group_id = paste(incident_id, str_pad(group_index, 2, "left", "0"), sep = "."),
-    individual_id = paste(group_id, str_pad(individual_index, 3, "left", "0"), sep = ".")
-  ) %>%
-  select(-group_index, -individual_index) %>%
-  group_by(incident_id, group_id, group_is_family, individual_id) %>%
+  group_by(incident_id, date,group_id, group_is_family, individual_id) %>%
   mutate(info = sapply(info, paste0, collapse=' | ')) %>%
   summarise(info = paste0(info, collapse = ' | '), .groups = "drop")
 
@@ -129,7 +89,8 @@ df_items = df_individuals
 df_items$item = str_split(df_items$info, " \\| ")
 df_items = df_items %>%
   tidyr::unnest(item) %>% 
-  group_by(individual_id) %>% 
+  mutate(item = arabicStemR::removeDiacritics(item)) %>%
+  group_by(incident_id, group_id, individual_id) %>% 
   mutate(item_id = row_number()) %>%
   mutate(
     item_type = case_when(
@@ -138,7 +99,7 @@ df_items = df_items %>%
       item %in% c("killed", "injured") ~ "casualty_type",
       item %in% c("male", "female") ~ "sex",
       item %in% c("Adult", "Child", "Age unknown") ~ "age_category",
-      str_detect(item, " years old") ~ "age",
+      str_detect(item, "years old") ~ "age",
       str_detect(item, "Matched to MoH ID |ossible match with MoH ID") ~ "moh_id",
       str_detect(tolower(item), "son|daught?er|child|wife|husband|mother|father|sister|brother|sibling|cousin|nephew|niece|unclear if related") ~ "relation",
       item == "pregnant" ~ "pregnant",
@@ -157,14 +118,14 @@ any(df_items$item_type == ".")
 
 # Unexpected item item type patterns
 df_items %>% 
-  group_by(individual_id) %>% 
+  group_by(incident_id, group_id, individual_id) %>% 
   mutate(pattern = paste0(item_type, collapse = " ")) %>%  
   ungroup %>%
   filter(!str_detect(pattern, "^designator_en( designator_ar)?( age| age_category)?( sex)?( pregnant)?( relation)?( comment)?( casualty_type)?( moh_id)?$")) %>% 
-  select(individual_id, item_id, item, item_type)
+  select(incident_id, group_id, individual_id, item_id, item, item_type)
 
 # Fix
-idx = df_items$individual_id %in% c("ispt0417.01.021", "ispt0417.01.022") & df_items$item_id == 5
+idx = with(df_items, incident_id == "ispt0417" & group_id == 1 & individual_id %in% 21:22 & item_id == 5)
 df_items$item_type[idx] = "comment"
 
 
@@ -188,24 +149,30 @@ df_individuals_ =
     .age_category = case_when(age_category == "Age unknown" ~ "unknown", TRUE ~ tolower(age_category)),
     .sex = case_when(sex == "male" ~ "m", sex == "female" ~ "f"),
     .pregnant = as.numeric(coalesce(pregnant, "") == "pregnant"),
+    .killed_or_injured = case_when(casualty_type == "killed" ~ "k", casualty_type == "injured" ~ "i", TRUE ~ casualty_type),
     .moh_id = str_extract(moh_id, "[0-9]{5,9}")
   )
 
 # Checks
 
-df_individuals_ %>% filter(is.na(.age) != is.na(age)) %>% select(individual_id, age, .age)
-df_individuals_ %>% filter(is.na(.age_category) != is.na(age_category)) %>% select(individual_id, age_category, .age_category)
-df_individuals_ %>% filter(is.na(.sex) != is.na(sex)) %>% select(individual_id, sex, .sex)
-df_individuals_ %>% filter((.pregnant != 1) != is.na(pregnant)) %>% select(individual_id, pregnant, .pregnant)
-df_individuals_ %>% filter(is.na(.moh_id) != is.na(moh_id)) %>% select(individual_id, moh_id, .moh_id, relation, comment)
+df_individuals_ %>% filter(is.na(.age) != is.na(age)) %>% select(incident_id, group_id, individual_id, age, .age)
+df_individuals_ %>% filter(is.na(.age_category) != is.na(age_category)) %>% select(incident_id, group_id, individual_id, age_category, .age_category)
+df_individuals_ %>% filter(is.na(.sex) != is.na(sex)) %>% select(incident_id, group_id, individual_id, sex, .sex)
+df_individuals_ %>% filter((.pregnant != 1) != is.na(pregnant)) %>% select(incident_id, group_id, individual_id, pregnant, .pregnant)
+df_individuals_ %>% filter(is.na(.moh_id) != is.na(moh_id)) %>% select(incident_id, group_id, individual_id, moh_id, .moh_id, relation, comment)
 
 # Fixes
 
-idx = df_individuals_$individual_id %in% c("ispt0057.01.002", "ispt0402.01.027", "ispt1669.01.073")
+idx = with(
+  df_individuals_, 
+  (incident_id == "ispt0057" & group_id == 1 & individual_id == 2) | 
+  (incident_id == "ispt0402" & group_id == 1 & individual_id == 27) | 
+  (incident_id == "ispt1669" & group_id == 1 & individual_id == 73)
+)
 all(is.na(df_individuals_$relation[idx]))
 df_individuals_$relation[idx] = str_remove(df_individuals_$moh_id[idx], "Matched to MoH ID ")
 
-idx = df_individuals_$individual_id == "ispt1669.01.077"
+idx = with(df_individuals_, incident_id == "ispt1669" & group_id == 1 & individual_id == 77)
 all(is.na(df_individuals_$comment[idx]))
 df_individuals_$comment[idx] = str_remove(df_individuals_$moh_id[idx], "Matched to MoH ID ")
 
@@ -222,7 +189,6 @@ df_incidents_ = df_individuals_ %>%
   )
 
 df_incidents__ = df_incidents %>%
-  mutate(date = lubridate::mdy(str_extract(urls, "[a-z]+-[0-9]{1,2}-[0-9]{4}"))) %>%
   select(-info) %>%
   left_join(df_incidents_, by = "incident_id") %>%
   mutate(
@@ -239,6 +205,7 @@ write.csv(df_incidents__, "data/airwars/airwars_incidents.csv", quote = FALSE, n
 df_individuals__ = df_individuals_ %>%
   select(
     incident_id,
+    date,
     group_id,
     group_is_family,
     individual_id,
@@ -250,7 +217,7 @@ df_individuals__ = df_individuals_ %>%
     pregnant = .pregnant,
     relation,
     comment,
-    casualty_type,
+    killed_or_injured = .killed_or_injured,
     moh_id = .moh_id,
     flags = .flags
   )
